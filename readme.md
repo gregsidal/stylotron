@@ -1,5 +1,8 @@
 *** See https://gregsidal.github.io/stylotron/readme.html for a marked up version of this text
 
+*** See https://gregsidal.github.io/stylotron/stylotron-demo.html for the demo
+
+
 <br>
 STYLOTRON  Readme
 <br>
