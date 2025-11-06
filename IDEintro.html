@@ -1,0 +1,214 @@
+<!--
+  Stylotron IDE Intro Document (version using JS and CSS in separate files)
+  cc0 (public domain) v.010 August 2025
+  project @ github.com/gregsidal
+
+  To open this modular doc in the IDE, first open this html file in Markup view, 
+  then open 'stylotron-samplepatterns.js' and 'stylotron-samplestyles.css' in 
+  Patterns and Styles view
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylotron IDE Intro Document</title>
+  <meta content="" name="description">
+  <meta content="" name="author">
+  <style>
+body {margin:0; padding:0; white-space:pre-wrap; background-color:#eee; font-family:sans-serif; font-size:0.98em;}
+  </style>
+
+<link  href="stylotron-samplestyles.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="lib/stylotron.js"></script>
+
+<script>
+const UserDocument = {FOLDED: true};
+UserDocument.onload = function() {
+  const elem = document.getElementById( 'stylotroncontainer' );
+  elem.innerHTML = SOT.markup( elem.innerText, UserDocument.patternseries );
+}
+document.addEventListener( 'DOMContentLoaded', UserDocument.onload );
+</script>
+
+<script type="text/javascript" src="stylotron-samplepatterns.js"></script>
+
+</head>
+<body class="FOLDED" id="stylotroncontainer"><!--!!!STYLOTRON IDE INNERTEXT START!!!-->STYLOTRON  IDE
+
+
+Stylotron (lib/stylotron.js) uses patterns in plaintext documents to dynamically mark them up with structured html.  The demo (stylotron-demo.html) explains stylotron's markup generation process.
+
+Markup is generated from plaintext and patterns, and styled with CSS.  This IDE provides editors for each of these, as well as a WYSIWYG editor for the styled document.  The menu that drops down from the eye icon toggles between the different editors.  When the WYSIWYG editor is active, the generated markup can be inspected using the browser's developer tools.
+
+This intro document is marked up with patterns preloaded from stylotron-samplepatterns.js, and styled with CSS preloaded from stylotron-samplestyles.css.  The sample patterns and styles are summarized further below.
+
+
+Opening and Saving Files
+
+The document icons are used to open files into and save the contents of the active editor^1.
+
+When the Markup editor is active, html files are opened and saved.  The plaintext, generated markup, patterns, and/or CSS are inserted into the open page when it is saved (a default container page is active when no other page is open).  When a saved page is later reopened, the various parts will be retrieved from it.
+
+Exactly which parts are extracted from an html file when it is opened depends on what _`insertion/extraction points`_^2 are present in the page, and these points also determine which parts are reinserted when it is saved.  This intro document can be saved to a file and the source inspected to see how insertion/extraction points are defined and placed.
+
+Plaintext, JS and CSS files can be opened and saved using the corresponding editors.  When one of these editors is active, only the part applicable to that editor will be extracted when an html file is opened.
+
+
+Editable vs Output CSS
+
+Elements like popups, fixed toolbars, independently scrollable blocks, etc., are not WYSIWYG editable.  To account for this, the IDE treats a document like origami: different CSS selectors are applied to the editable, or unfolded document, and the output, or folded one^3.
+
+The selectors make it possible to define styles that act to fold or unfold the document, for example:
+
+.UNFOLDED .toolbar {position:relative;}
+.FOLDED .toolbar {position:fixed;}
+
+The sample CSS employs a few folding tweaks, which can be examined by toggling to the Styles editor^4.
+
+
+Regular Expressions
+
+Regular expressions specify what parts of a text a pattern should capture.
+
+Regex's can be tested and optimized using the search function in the Plaintext editor^5.
+
+
+Sample Patterns and Styles
+
+The 'block' pattern captures blocks of text separated by two or more linefeeds.
+
+The 'codeblockcontainer' pattern captures indented single-line blocks, or blocks containing multiple lines where the first line includes a _`code-like`_ character such as '{', '/', or '='.
+
+The 'codeblock multiline' and 'codeblock snippet' patterns capture the two types of code blocks.  They are styled to be horizontally scrollable; a left margin leaves room for line numbers in multi-line code blocks.
+
+{this is a multi-line 
+code block}
+
+ This is a code snippet
+
+this is not a code block 
+(contains consecutive lines, 
+but the first line does not 
+include a code-like character)
+
+this is not a code snippet (it is not indented)
+
+The 'paragraph' pattern captures blocks with only one line that include sentence-like formations (a sentence starts with a capitalized word and ends with punctuation).
+
+The 'heading' pattern captures single-line blocks that do not end in a period where significant words are capitalized.
+
+This is not a heading (includes non-capitalized significant words), nor is it a paragraph (there is no sentence-like punctuation)
+
+The 'line' pattern captures all lines.  Lines inside code blocks are numbered using a CSS counter.
+
+Atomic patterns include /regular expressions/g, 'quoted tags', "quoted text", /*code comments*/, &lt;!--html comments--&gt;, and numbers like 0.123, -1, +5.67, and #a345.
+
+
+Known Issues
+
+While using recent versions of chromium-based browsers on Android: when selecting a range in the code editors (Patterns or Styles), selection may be dropped when range's starting position is flush left.  Selection start may also snap to top when the selection height is greater than editor height (select, scroll, stretch selection).
+
+
+Notes
+
+1  The filled document icon is used to paste the contents of a file at the position of the the caret or current selection.
+
+2  Sample patterns are provided that allow _`italics`_, _"bold"_, and footnote links^1 to be tagged while editing.  The tags are hidden by the CSS when the document is folded.
+
+3  While it is possible to automatically create an unfolded version of the CSS, this IDE does not include code to do that at this time.
+
+4  The WYSIWYG editor currently doesn't run in an iframe, so some styles such as 'position:fixed' used without 'FOLDED' may cover up the IDE's toolbar or make the IDE unusable in other ways.
+
+5  The shape of a highlight's endcaps can be used to determine whether a match begins or ends with line feeds (often not desirable).  The browser may timeout when iterating through the matches of some poorly designed regex's.
+
+<!--!!!STYLOTRON IDE INNERTEXT END!!!--></body></html><!--!!!STYLOTRON IDE PLAINTEXT START!!!STYLOTRON  IDE
+
+
+Stylotron (lib/stylotron.js) uses patterns in plaintext documents to dynamically mark them up with structured html.  The demo (stylotron-demo.html) explains stylotron's markup generation process.
+
+Markup is generated from plaintext and patterns, and styled with CSS.  This IDE provides editors for each of these, as well as a WYSIWYG editor for the styled document.  The menu that drops down from the eye icon toggles between the different editors.  When the WYSIWYG editor is active, the generated markup can be inspected using the browser's developer tools.
+
+This intro document is marked up with patterns preloaded from stylotron-samplepatterns.js, and styled with CSS preloaded from stylotron-samplestyles.css.  The sample patterns and styles are summarized further below.
+
+
+Opening and Saving Files
+
+The document icons are used to open files into and save the contents of the active editor^1.
+
+When the Markup editor is active, html files are opened and saved.  The plaintext, generated markup, patterns, and/or CSS are inserted into the open page when it is saved (a default container page is active when no other page is open).  When a saved page is later reopened, the various parts will be retrieved from it.
+
+Exactly which parts are extracted from an html file when it is opened depends on what _`insertion/extraction points`_^2 are present in the page, and these points also determine which parts are reinserted when it is saved.  This intro document can be saved to a file and the source inspected to see how insertion/extraction points are defined and placed.
+
+Plaintext, JS and CSS files can be opened and saved using the corresponding editors.  When one of these editors is active, only the part applicable to that editor will be extracted when an html file is opened.
+
+
+Editable vs Output CSS
+
+Elements like popups, fixed toolbars, independently scrollable blocks, etc., are not WYSIWYG editable.  To account for this, the IDE treats a document like origami: different CSS selectors are applied to the editable, or unfolded document, and the output, or folded one^3.
+
+The selectors make it possible to define styles that act to fold or unfold the document, for example:
+
+.UNFOLDED .toolbar {position:relative;}
+.FOLDED .toolbar {position:fixed;}
+
+The sample CSS employs a few folding tweaks, which can be examined by toggling to the Styles editor^4.
+
+
+Regular Expressions
+
+Regular expressions specify what parts of a text a pattern should capture.
+
+Regex's can be tested and optimized using the search function in the Plaintext editor^5.
+
+
+Sample Patterns and Styles
+
+The 'block' pattern captures blocks of text separated by two or more linefeeds.
+
+The 'codeblockcontainer' pattern captures indented single-line blocks, or blocks containing multiple lines where the first line includes a _`code-like`_ character such as '{', '/', or '='.
+
+The 'codeblock multiline' and 'codeblock snippet' patterns capture the two types of code blocks.  They are styled to be horizontally scrollable; a left margin leaves room for line numbers in multi-line code blocks.
+
+{this is a multi-line 
+code block}
+
+ This is a code snippet
+
+this is not a code block 
+(contains consecutive lines, 
+but the first line does not 
+include a code-like character)
+
+this is not a code snippet (it is not indented)
+
+The 'paragraph' pattern captures blocks with only one line that include sentence-like formations (a sentence starts with a capitalized word and ends with punctuation).
+
+The 'heading' pattern captures single-line blocks that do not end in a period where significant words are capitalized.
+
+This is not a heading (includes non-capitalized significant words), nor is it a paragraph (there is no sentence-like punctuation)
+
+The 'line' pattern captures all lines.  Lines inside code blocks are numbered using a CSS counter.
+
+Atomic patterns include /regular expressions/g, 'quoted tags', "quoted text", /*code comments*/, <!--html comments!!!STYLOTRON IDE COMMENT END!!!, and numbers like 0.123, -1, +5.67, and #a345.
+
+
+Known Issues
+
+While using recent versions of chromium-based browsers on Android: when selecting a range in the code editors (Patterns or Styles), selection may be dropped when range's starting position is flush left.  Selection start may also snap to top when the selection height is greater than editor height (select, scroll, stretch selection).
+
+
+Notes
+
+1  The filled document icon is used to paste the contents of a file at the position of the the caret or current selection.
+
+2  Sample patterns are provided that allow _`italics`_, _"bold"_, and footnote links^1 to be tagged while editing.  The tags are hidden by the CSS when the document is folded.
+
+3  While it is possible to automatically create an unfolded version of the CSS, this IDE does not include code to do that at this time.
+
+4  The WYSIWYG editor currently doesn't run in an iframe, so some styles such as 'position:fixed' used without 'FOLDED' may cover up the IDE's toolbar or make the IDE unusable in other ways.
+
+5  The shape of a highlight's endcaps can be used to determine whether a match begins or ends with line feeds (often not desirable).  The browser may timeout when iterating through the matches of some poorly designed regex's.
+
+!!!STYLOTRON IDE PLAINTEXT END!!!-->

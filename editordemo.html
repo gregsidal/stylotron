@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!--
+  Stylotron Editors Demo
+  cc0 (public domain) v.010 November 2025, latest version @ github.com/gregsidal
+
+  To open this demo into the IDE, first open this html file, 
+  then toggle to patterns editor and open 'stylotron-samplepatterns.js',
+  then toggle to styles editor and open 'stylotron-samplestyles.css'
+-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stylotron Editors Demo</title>
+  <meta content="Stylotron editors demo" name="description">
+  <meta content="" name="author">
+
+  <link  href="stylotron-samplestyles.css" rel="stylesheet" type="text/css">
+
+  <style>
+@media all and (min-width:749px) and (orientation:landscape) {
+  .document {font-size:0.96em;}  /* (override this from -samplestyles.css) */
+}
+body {background-color:#c6c6c6;}
+h4 {color:#444;}
+
+/* defaults */
+*, *::before, *::after {box-sizing:border-box; text-size-adjust:none; outline:none;}
+div, textarea {display:inline-block; margin:0; border:0; border-radius:0; padding:0;}
+span, button, input, select, label {display:inline-block; border-radius:0; vertical-align:middle;}
+label, input[type="checkbox"], button {cursor:pointer;}
+*::spelling-error {text-decoration-line:none;}
+
+/* markup defaults */
+mark {border-radius:0; color:inherit; background-color:transparent;}
+mark.L {border-top-left-radius:0.25em; border-bottom-left-radius:0.25em;}
+mark.R {border-top-right-radius:0.25em; border-bottom-right-radius:0.25em;}
+h4 {margin-top:0; margin-block-start:0;}
+
+/* panel framing */
+body.EDITOR {
+  margin:0; padding:1.7em; font-family:sans-serif; font-size:0.96em;
+}
+.EDITOR_editorpositioner {
+  display:block; border:0.6px solid #a8a8a8; max-width:100%; height:20em; margin-bottom:1.7em;
+}
+.EDITOR_2 {
+  margin-bottom:0.7em;
+}
+.EDITOR_documentcontainer {
+  display:block; width:100%; overflow:auto; overflow-x:clip; height:100%;
+  background-color:white;
+}
+.EDITOR_controlbar {
+  display:block; width:100%; overflow-x:auto; margin-bottom:0.3em;
+}
+.EDITOR_controlbar button {
+  min-width:2em; border:0; border-radius:0.25em;
+  font-size:0.87em; background-color:#777; color:#fff;
+}
+.EDITOR_controlbar button:hover {
+  color:#fbb;
+}
+.EDITOR_controlbar button:disabled {
+  opacity:0.4; cursor:default;
+}
+.EDITOR_controlbar button:disabled:hover {
+  background-color:#777; color:#fff;
+}
+.EDITOR_controlbar input {
+  border:0.6px solid #c9c9c9; width:40em;
+}
+@media all and (max-width:749px) {
+  .EDITOR_controlbar input {width:25em};
+}
+@media all and (max-width:539px) {
+  body.EDITOR {padding:1.0em;}
+  .EDITOR_editorpositioner {margin-bottom:1.0em;}
+  .EDITOR_2 {margin-bottom:0.5em;}
+  .EDITOR_controlbar input {width:14em};
+}
+@media all and (max-width:359px) {
+  .EDITOR_controlbar input {width:10em};
+}
+
+/* search highlights */
+.search-match {background-color:#f4ecd8 !important; color:inherit;}
+@keyframes replacedflash {
+    0% {background-color:rgba(164,200,164,0.6);}
+   30% {background-color:transparent;}
+   60% {background-color:rgba(164,200,164,0.6);}
+   90% {background-color:transparent;}
+}
+.search-replaced {
+  background-color:transparent; animation-name:replacedflash; animation-delay:0.0s; animation-duration:0.7s;
+}
+.search-match .search-current {
+  background-color:rgba(230,190,190,0.99); color:inherit;
+}
+@keyframes currentflash {
+    0% {background-color:rgba(230,190,190,0.99);}
+   50% {background-color:transparent;}
+  100% {background-color:rgba(230,190,190,0.99);}
+}
+.search-match .search-current.search-currentflash {
+  animation-name:currentflash; animation-delay:0.0s; animation-duration:0.7s;
+}
+@keyframes currentblink {
+    0% {background-color:rgba(230,190,190,0.99);}
+   25% {background-color:transparent;}
+   50% {background-color:rgba(230,190,190,0.99);}
+   75% {background-color:transparent;}
+  100% {background-color:rgba(230,190,190,0.99);}
+}
+.search-match .search-current.search-currentblink {
+  animation-name:currentblink; animation-delay:0.0s; animation-duration:1.0s;
+}
+
+/* selection (when not focused) highlight */
+.texteditor-selected, .EDITOR .texteditor-selected {
+  background-color:rgba(210,210,225,0.5) !important; color:inherit;
+}
+mark.texteditor-selected.L, mark.texteditor-selected.R {border-radius:0 !important;}
+  </style>
+
+  <script type="text/javascript" src="lib/stylotron.js"></script>
+  <script type="text/javascript" src="lib/texteditor.js"></script>
+  <script type="text/javascript" src="lib/stylotroneditor.js"></script>
+
+<script>
+const UserDocument = {};
+UserDocument.onload = function() {
+  UserDocument.editor1 = UI.stylotroneditor.createinit(
+       'editor1',
+       {selections: {}},
+       UserDocument.patternseries );
+  UserDocument.editor2 = UI.stylotroneditor.createinit(
+       'editor2',
+       {selections: {},
+        undoredo: {},
+        search: {}},
+       UserDocument.patternseries );
+}
+document.addEventListener( 'DOMContentLoaded', UserDocument.onload );
+</script>
+
+<script type="text/javascript" src="stylotron-samplepatterns.js"></script>
+
+</head>
+
+<body class="EDITOR UNFOLDED">
+
+<h4>Stylotron Editors Demo</h4>
+
+<div class="EDITOR_editorpositioner EDITOR_1"><div class="EDITOR_documentcontainer" id="editor1"><!--!!!STYLOTRON IDE INNERTEXT START!!!-->Editor #1
+
+These editors dynamically mark up content as its edited using lib/stylotron.js.
+
+The main demo (stylotron-demo.html) explains Stylotron's markup generation process.  The patterns (stylotron-samplepatterns.js) and styles (stylotron-samplestyles.css) used here are overviewed in the IDE's (stylotronIDE.html) introductory document.
+
+Texteditor.js (lib/texteditor.js) provides the basic editor and stylotroneditor.js (lib/stylotroneditor.js) provides an attachment that adds dynamic markup capability to it.  These libraries also provide undo/redo, search, and souped-up selections support.
+
+This editor makes use of the default selections attachment, which keeps a highlight on the current selection when the element loses focus.  The call that creates and initializes this editor is:
+
+UserDocument.editor1 = UI.stylotroneditor.createinit(
+   'editor1',
+   {selections: {}},
+   UserDocument.patternseries );
+
+Editors operate autonomously once they are initialized.
+
+STYLOTRON
+
+<!--!!!STYLOTRON IDE INNERTEXT END!!!--></div></div>
+
+<div class="EDITOR_editorpositioner EDITOR_2"><div class="EDITOR_documentcontainer" id="editor2">Editor #2
+
+In addition to a selections attachment, this editor makes use of undoredo and search attachments, which manage the controls below and their events.
+
+The call that creates and initializes this editor is:
+
+UserDocument.editor2 = UI.stylotroneditor.createinit(
+   'editor2',
+   {selections: {},
+    undoredo: {},
+    search: {}},
+   UserDocument.patternseries );
+
+</div></div>
+
+<div class="EDITOR_controlbar">
+  <div>
+    <button class="dark" id='undoredo-undobtn'>Undo</button>
+    <button class="dark" id='undoredo-redobtn'>Redo</button>
+  </div>
+</div>
+<div class="EDITOR_controlbar">
+  <div>
+    <input type="text" id="search-find" value="" placeholder="Search String or /RegEx/"/>
+    <button class="dark" id='search-nextbtn'>&gt;</button>
+    <button class="dark" id='search-scrolltobtn'>&#x2022;</button>
+    <button class="dark" id='search-prevbtn'>&lt;</button>
+    <button class="dark" id='search-clearbtn'>C</button>
+  </div>
+</div>
+<div class="EDITOR_controlbar">
+  <div>
+    <input type="text" id="search-replace" value=""/>
+    <button class="dark" id='search-replacebtn'>Replace</button>
+    <button class="dark" id='search-replaceallbtn'>All</button>
+  </div>
+</div>
+
+</body>
+</html>
+<!--!!!STYLOTRON IDE PLAINTEXT START!!!Editor #1
+
+These editors dynamically mark up content as its edited using lib/stylotron.js.
+
+The main demo (stylotron-demo.html) explains Stylotron's markup generation process.  The patterns (stylotron-samplepatterns.js) and styles (stylotron-samplestyles.css) used here are overviewed in the IDE's (stylotronIDE.html) introductory document.
+
+Texteditor.js (lib/texteditor.js) provides the basic editor and stylotroneditor.js (lib/stylotroneditor.js) provides an attachment that adds dynamic markup capability to it.  These libraries also provide undo/redo, search, and souped-up selections support.
+
+This editor makes use of the default selections attachment, which keeps a highlight on the current selection when the element loses focus.  The call that creates and initializes this editor is:
+
+UserDocument.editor1 = UI.stylotroneditor.createinit(
+   'editor1',
+   {selections: {}},
+   UserDocument.patternseries );
+
+Editors operate autonomously once they are initialized.
+
+STYLOTRON
+
+!!!STYLOTRON IDE PLAINTEXT END!!!-->
