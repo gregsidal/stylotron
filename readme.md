@@ -56,6 +56,7 @@ Note that the editor libraries, editor demo, and IDE have only been tested on ch
 <br>
 Tools
 <br><br>
+
 StylotronIDE.html is a rudimentary IDE which was built from the above mentioned components.  It works best when used in conjunction with the browser's inspector.
 
 Texteditor.html is a basic plaintext editor (notepad) with regex search and replace.
